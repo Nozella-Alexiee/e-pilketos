@@ -211,7 +211,3 @@ e-pilketos/
 Didesain dan dikembangkan dengan dedikasi untuk kemajuan teknologi dan demokrasi di lingkungan **SMKS Semen Gresik**.
 
 Didistribusikan secara bebas dan terbuka di bawah lisensi resmi [MIT License](LICENSE).
-
-<p align="center">
-  <sub>Dibuat dengan ❤️ di Gresik, Jawa Timur</sub>
-</p>
