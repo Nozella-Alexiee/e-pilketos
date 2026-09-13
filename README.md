@@ -13,31 +13,29 @@
   <a href="https://php.net"><img src="https://img.shields.io/badge/PHP-8.1%2B-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.1+"></a>
   <a href="https://mariadb.org"><img src="https://img.shields.io/badge/Database-MariaDB%20%2F%20MySQL-003545?style=for-the-badge&logo=mariadb&logoColor=white" alt="MariaDB"></a>
   <a href="https://github.com/justadudewhohacks/face-api.js"><img src="https://img.shields.io/badge/AI-face--api.js-E34F26?style=for-the-badge&logo=javascript&logoColor=white" alt="Face-API.js"></a>
+  <a href="#-fitur-pwa--kiosk"><img src="https://img.shields.io/badge/PWA-Installable-f39c12?style=for-the-badge&logo=pwa&logoColor=white" alt="PWA Ready"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-2ea44f?style=for-the-badge" alt="MIT License"></a>
-  <img src="https://img.shields.io/badge/Architecture-Native%20Zero--Framework-blueviolet?style=for-the-badge" alt="Zero Framework">
 </p>
 
 <p align="center">
-  <a href="#-komparasi-sistem">Komparasi</a> •
-  <a href="#-fitur-unggulan">Fitur Unggulan</a> •
-  <a href="#-arsitektur--alur-pemilihan">Arsitektur</a> •
-  <a href="#-tech-stack">Tech Stack</a> •
-  <a href="#-instalasi-cepat">Instalasi</a> •
-  <a href="#-keamanan--integritas">Keamanan</a> •
-  <a href="LICENSE">Lisensi</a>
+  <a href="#-komparasi-sistem">⚖️ Komparasi</a> •
+  <a href="#-fitur-unggulan">✨ Fitur</a> •
+  <a href="#-diagram-alur-sistem">📊 Diagram Alur</a> •
+  <a href="#-bedah-teknis--arsitektur">🔍 Bedah Teknis</a> •
+  <a href="#-tech-stack">🛠️ Tech Stack</a> •
+  <a href="#-panduan-instalasi-cepat">🚀 Instalasi</a> •
+  <a href="LICENSE">📄 Lisensi</a>
 </p>
 
 ---
 
 ## 📌 Sekilas Proyek
 
-**E-Pilketos v2.0** adalah platform *e-voting* modern yang dirancang khusus untuk memenuhi standar demokrasi pemilihan ketua OSIS di **SMK Semen Gresik**. Dibangun dengan prinsip **kecepatan, kesederhanaan operasional, dan asas LUBER JURDIL**, aplikasi ini menggantikan kotak suara konvensional dengan sistem verifikasi biometrik pengenalan wajah (*face recognition*) dan protokol *secret ballot* murni.
+**E-Pilketos v2.0** adalah platform *e-voting* modern yang dirancang khusus untuk memenuhi standar demokrasi pemilihan ketua OSIS di **SMK Semen Gresik**. Menggabungkan kemudahan surat suara digital di smartphone/tablet dengan verifikasi biometrik pengenalan wajah (*face recognition*) dan penjaminan asas kerahasiaan suara mutlak (*secret ballot*).
 
 ---
 
 ## ⚖️ Komparasi Sistem
-
-Mengapa beralih dari pemilihan konvensional berbasis kertas?
 
 | Parameter | 📋 Pemilihan Kertas Konvensional | 🗳️ E-Pilketos v2.0 (Modern) |
 | :--- | :--- | :--- |
@@ -45,76 +43,83 @@ Mengapa beralih dari pemilihan konvensional berbasis kertas?
 | **Waktu Rekapitulasi** | 3 – 5 Jam (hitung manual di aula) | **Otomatis & Real-Time (0 detik setelah bilik ditutup)** |
 | **Biaya Logistik** | Jutaan rupiah (cetak surat suara, tinta, bilik) | **Rp 0,- (100% Paperless & ramah lingkungan)** |
 | **Kerahasiaan Suara** | Rawan terlihat saat kertas dilipat/dicoblos | **Tabel suara terpisah tanpa ID pemilih (*Zero-Trace*)** |
-| **Keabsahan Suara** | Rawan suara rusak/coblos ganda | **100% Valid (Validasi atomik tingkat basis data)** |
+| **Dukungan Perangkat** | Fisik kertas di bilik kayu/kardus | **PWA Standalone (Tablet Kiosk, HP, & Laptop)** |
 | **Berita Acara** | Ditulis tangan, rawan selisih angka | **Auto-Generated format dinas resmi siap cetak/PDF** |
 
 ---
 
 ## ✨ Fitur Unggulan
 
-### 📸 1. Bilik Suara Biometrik Wajah (AI Client-Side)
-* Memanfaatkan pustaka **`face-api.js`** berbasis arsitektur *MobileNet SSD* dan *ResNet-34*.
-* Ekstraksi 128-dimensi vektor wajah pemilih dilakukan **100% di browser pemilih (*client-side*)**.
-* **Hemat Resource:** Server tidak memerlukan GPU khusus dan tidak ada foto wajah mentah yang dikirim ke cloud pihak ketiga.
-* Dilengkapi *fallback mode* (verifikasi nomor absen / NIP) jika pencahayaan kamera ruangan kurang memadai.
-
-### 🔒 2. Kerahasiaan Suara Mutlak (*True Secret Ballot*)
-* Berbeda dengan e-voting biasa yang menyimpan `user_id` di setiap suara, tabel `votes` pada E-Pilketos v2.0 **sama sekali tidak memiliki relasi ke identitas pemilih**.
-* Pemilih hanya diberi *hak klaim* status `has_voted = 1`, sementara kertas suara digital masuk ke kotak suara anonim secara terpisah. Pilihan pemilih mustahil dilacak oleh siapapun, termasuk administrator database.
-
-### 👥 3. DPT Terpadu (Siswa, Guru & Karyawan)
-* **18 Rombel Kelas Siswa:** Mencakup seluruh tingkatan (X, XI, XII) dan kompetensi keahlian resmi SMK Semen Gresik: RPL, TOI, TKRO, TP, dan KI.
-* **Hak Suara Pendidik & Tenaga Kependidikan:** Panel DPT khusus untuk Guru & Karyawan berbasis NIP/Kode Pegawai.
-
-### 📊 4. Live Quick Count & Cetak Berita Acara Resmi
-* Dashboard pemantauan grafik perolehan suara paslon dan persentase partisipasi kehadiran secara *real-time*.
-* **Ekspor Berita Acara Dinas:** Sekali klik untuk mencetak Berita Acara resmi pemilihan lengkap dengan nomor surat, tanggal pengesahan, dan kolom tanda tangan Kepala Sekolah, Pembina OSIS, serta Ketua Panitia.
-
-### ⚡ 5. Zero-Build, Zero-Framework (Pure Native Performance)
-* Dibangun dengan **Pure PHP 8.1+ & Vanilla JavaScript**.
-* Tanpa *node_modules*, tanpa proses *compilation*, dan tanpa framework berat.
-* Dapat berjalan mulus di laptop lama, server intranet lokal sekolah, maupun *shared hosting* gratisan (seperti ProFreeHost / cPanel).
+- **📱 Progressive Web App (PWA) & Tablet Kiosk:** Mendukung mode *standalone* tanpa bar URL browser. Panitia bilik suara dapat memasang aplikasi di layar utama Tablet dengan 1 kali klik.
+- **📸 Biometrik Wajah Client-Side:** Verifikasi wajah pemilih diproses langsung di peramban menggunakan `face-api.js` (MobileNet SSD + ResNet-34). Ringan, tanpa GPU server, dan tanpa mengirim foto mentah ke cloud.
+- **🔒 Kerahasiaan Suara Mutlak (*True Secret Ballot*):** Tabel kotak suara (`votes`) dirancang steril dari relasi ID pemilih (`student_id` / `employee_id`), menjamin suara tidak dapat dilacak oleh siapapun.
+- **👥 DPT Terpadu (Siswa, Guru & Karyawan):** Mengakomodasi 18 rombel kelas siswa (X, XI, XII dari jurusan RPL, TOI, TKRO, TP, KI) serta guru dan staf kependidikan.
+- **📊 Quick Count & Berita Acara Dinas Otomatis:** Perolehan suara dihitung otomatis dan dapat langsung dicetak menjadi Berita Acara resmi lengkap dengan kolom tanda tangan Kepala Sekolah & Panitia.
+- **⚡ Zero-Build, Pure Native:** Ditulis dengan Native PHP 8.1+ & Vanilla JavaScript. Super ringan, tanpa *node_modules*, dan siap jalan di server intranet maupun *shared hosting*.
 
 ---
 
-## 🔄 Arsitektur & Alur Pemilihan
+## 📊 Diagram Alur Sistem
 
-```text
-               ┌──────────────────────────────────────────────┐
-               │              PEMILIH HADIR                   │
-               └──────────────────────┬───────────────────────┘
-                                      │
-                   ┌──────────────────┴──────────────────┐
-                   ▼                                     ▼
-       [ Jalur Siswa / DPT ]                   [ Jalur Guru & Karyawan ]
-    Pilih Kelas ➔ Absen ➔ Konfirmasi      Pilih Kategori ➔ Masukkan NIP
-                   │                                     │
-                   └──────────────────┬──────────────────┘
-                                      │
-                                      ▼
-                        ┌───────────────────────────┐
-                        │   VERIFIKASI BIOMETRIK    │
-                        │  (face-api.js 128D Match) │
-                        └─────────────┬─────────────┘
-                                      │
-                                      ▼
-                        ┌───────────────────────────┐
-                        │    SURAT SUARA DIGITAL    │
-                        │ Foto, No. Urut, Visi-Misi │
-                        └─────────────┬─────────────┘
-                                      │
-                                      ▼
-                        ┌───────────────────────────┐
-                        │    KONFIRMASI PILIHAN     │
-                        │     (Modal Dialog Box)    │
-                        └─────────────┬─────────────┘
-                                      │
-                    ┌─────────────────┴─────────────────┐
-                    ▼                                   ▼
-        [ Update Status Pemilih ]           [ Masuk Kotak Suara ]
-        has_voted = 1 (Terkunci)            INSERT INTO votes (Anonim)
-        (Waktu kehadiran tercatat)          (Tanpa ID / Asas Rahasia)
+Alur pemilihan terintegrasi yang dirender langsung secara native:
+
+```mermaid
+flowchart TD
+    classDef user fill:#511524,stroke:#3b0e1a,stroke-width:2px,color:#fff;
+    classDef process fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#1e293b;
+    classDef secure fill:#047857,stroke:#065f46,stroke-width:1px,color:#fff;
+
+    A[👤 Pemilih Datang di Bilik Suara]:::user --> B{Jalur Pemilih}
+    B -->|Siswa| C[Pilih Kelas & Nomor Absen]:::process
+    B -->|Guru & Karyawan| D[Pilih Kategori & Masukkan NIP]:::process
+
+    C --> E[📸 Pindai Wajah Biometrik AI]:::process
+    D --> E
+
+    E -->|Wajah Terverifikasi| F[🗳️ Buka Surat Suara Digital]:::process
+    E -->|Kendala Kamera / Cahaya| G[Verifikasi Manual oleh Panitia]:::process
+    G --> F
+
+    F --> H{Konfirmasi Pilihan Paslon}:::process
+    H -->|Kunci Suara| I[🔒 Update Status has_voted = 1]:::secure
+    H -->|Kunci Suara| J[📦 Simpan ke Kotak Suara votes]:::secure
 ```
+
+---
+
+## 🔍 Bedah Teknis & Arsitektur
+
+<details>
+<summary><b>🔒 1. Protokol Keamanan: Kenapa Suara Mustahil Dilacak? (Secret Ballot)</b></summary>
+<br>
+
+Berbeda dengan sistem *e-voting* biasa yang menyimpan `user_id` pada setiap suara masuk, E-Pilketos v2.0 memisahkan hak klaim dan surat suara menjadi dua proses yang independen (*blind voting*):
+
+1. **Pencatatan Kehadiran:** Saat pemilih mencoblos, sistem menandai kolom `has_voted = 1` pada tabel `students` atau `employees`. Ini memastikan 1 orang hanya bisa memilih 1 kali.
+2. **Penyimpanan Suara:** Kertas suara digital disimpan ke tabel `votes` yang **hanya berisi `candidate_id` dan `created_at`**, tanpa menyimpan kolom ID pemilih sama sekali.
+3. **Pemisahan Transaksi:** Bahkan jika administrator membuka database secara langsung, mustahil menghubungkan suara tertentu dengan pemilih tertentu.
+</details>
+
+<details>
+<summary><b>📸 2. Spesifikasi Pipeline AI Biometrik (face-api.js)</b></summary>
+<br>
+
+- **Deteksi Wajah:** *Tiny Face Detector* berbasis MobileNetV1-SSD, dioptimalkan untuk perangkat mobile dengan konsumsi memori rendah.
+- **Penyelarasan Landmark:** *68-point Facial Landmark Predictor* untuk mendeteksi posisi mata, hidung, dan kontur wajah.
+- **Ekstraksi Fitur:** *ResNet-34 Architecture* yang memetakan karakteristik wajah ke dalam vektor matematis 128-dimensi (*descriptor*).
+- **Pencocokan Euclidean:** Membandingkan vektor wajah pemilih saat ini dengan data pra-registrasi menggunakan *Euclidean Distance* dengan nilai ambang batas (*threshold*) yang dapat dikalibrasi (default: 0.50).
+</details>
+
+<details>
+<summary><b>📲 3. Cara Pasang Mode Kiosk di Tablet Sekolah (PWA)</b></summary>
+<br>
+
+1. Buka browser (Google Chrome atau Microsoft Edge) di Tablet bilik suara.
+2. Akses alamat web pemilihan, misal: `http://192.168.1.100:8080/`
+3. Klik tombol **"Pasang Aplikasi"** di bagian atas halaman atau pada banner yang muncul di bawah layar.
+4. Aplikasi akan otomatis terpasang di layar utama (*Home Screen*) tablet.
+5. Saat dibuka, aplikasi akan berjalan **layar penuh (full-screen)** tanpa bilah alamat URL browser, siap digunakan sebagai bilik suara resmi!
+</details>
 
 ---
 
@@ -122,27 +127,24 @@ Mengapa beralih dari pemilihan konvensional berbasis kertas?
 
 | Lapisan Sistem | Teknologi | Rationale / Kegunaan |
 | :--- | :--- | :--- |
-| **Runtime & Backend** | Native PHP 8.1+ | PDO Driver, Prepared Statements, Session Hardening |
-| **Basis Data** | MariaDB 10.x / MySQL 8.x | Transaksi ACID atomik, integritas data referensial |
-| **Model Biometrik AI** | face-api.js (TensorFlow.js) | *Tiny Face Detector*, *68 Face Landmarks*, *ResNet-34 Descriptors* |
-| **Antarmuka (Frontend)** | HTML5, CSS3, Vanilla JS | Desain *mobile-first* bertema warna resmi SMK SIG (*Deep Burgundy*) |
-| **Format Standar** | JSON, CSV | Kompatibilitas impor massal DPT dari Excel/Dapodik |
+| **Backend** | Native PHP 8.1+ | Prepared Statements (PDO), arsitektur modular, atomic transactions |
+| **Database** | MariaDB 10.x / MySQL 8.x | Relasi foreign key, transaksi ACID, dukungan `.env` |
+| **PWA & Cache** | Service Worker (`sw.js`) & Manifest | Cache-First untuk aset statis/AI, Network-First untuk kotak suara |
+| **Biometrik AI** | face-api.js (TensorFlow.js) | Tiny Face Detector + 68 Landmarks + ResNet-34 Descriptors |
+| **Frontend** | HTML5, CSS3, Vanilla JS | Desain *mobile-first* dengan tema warna resmi SMK SIG (Deep Maroon) |
+| **Keamanan** | Bcrypt & Anti-CSRF | Hashing password standar industri & token proteksi sesi |
 
 ---
 
 ## 🚀 Panduan Instalasi Cepat
 
-### Prasyarat:
-* PHP versi 8.1 atau lebih baru (dengan ekstensi `pdo_mysql` aktif).
-* Database MariaDB atau MySQL.
-
-### Langkah 1: Klon Repositori
+### 1. Klon Repositori
 ```bash
 git clone https://github.com/Nozella-Alexiee/e-pilketos.git
 cd e-pilketos
 ```
 
-### Langkah 2: Konfigurasi Database
+### 2. Konfigurasi Database
 Salin berkas template environment:
 ```bash
 cp .env.example .env
@@ -159,7 +161,7 @@ Import skema dan data awal resmi:
 mysql -u root -p epilketos_sig < database.sql
 ```
 
-### Langkah 3: Jalankan Web Server
+### 3. Jalankan Web Server
 ```bash
 php -S 0.0.0.0:8080
 ```
@@ -172,41 +174,33 @@ Akses portal melalui peramban:
 
 ---
 
-## 🛡️ Keamanan & Integritas Data
-
-* **Anti Double Voting:** Proteksi berlapis mulai dari penguncian antarmuka, pengecekan backend `has_voted`, hingga transaksi basis data `BEGIN ... COMMIT` untuk mencegah serangan *race condition*.
-* **Perlindungan SQL Injection:** Seluruh kueri interaksi basis data menggunakan *PDO Prepared Statements* dengan *parameter binding*.
-* **Mitigasi CSRF & XSS:** Setiap formulir aksi dilindungi token acak sesi kriptografis dan seluruh luaran teks disanitasi menggunakan `htmlspecialchars()`.
-* **Sanitasi Unggahan Foto:** Pengecekan *magic bytes MIME type*, batasan ukuran maksimal 2MB, dan pengacakan nama berkas foto paslon.
-
----
-
 ## 📁 Struktur Berkas Proyek
 
 ```text
 e-pilketos/
 ├── admin/                     # Modul panel kontrol administrator & panitia
-│   ├── index.php              # Dashboard analitik & diagram perolehan suara
-│   ├── students.php           # Manajemen DPT siswa & fitur import CSV
-│   ├── employees.php          # Manajemen DPT guru & karyawan
-│   ├── candidates.php         # Manajemen paslon & upload foto resmi
-│   └── results.php            # Cetak Berita Acara resmi format dinas
-├── assets/                    # Identitas visual, CSS tema SMK SIG, & font ikon
-├── config/                    # Koneksi PDO, migrasi skema, & transaksi suara anonim
+├── assets/                    # Identitas visual, CSS tema SMK SIG, & ikon PWA
+│   ├── css/style.css          # Desain sistem & responsivitas tablet/mobile
+│   ├── images/icons/          # Paket ikon PWA (192px, 512px, maskable, apple)
+│   └── js/pwa.js              # Service Worker manager & PWA install handler
+├── config/                    # Koneksi PDO, migrasi skema, & fungsi keamanan
 ├── face-poc/                  # Modul biometrik wajah mandiri (kamera & AI)
-│   ├── assets/models/         # Bobot bobot neural network face-api.js
-│   ├── enroll.php             # Portal registrasi/perekaman vektor wajah
+│   ├── assets/models/         # Bobot neural network face-api.js
+│   ├── enroll.php             # Registrasi/perekaman vektor wajah siswa & guru
 │   └── index.php              # Bilik suara berbasis pengenalan wajah
 ├── templates/                 # Header & footer standar antarmuka
 ├── .env.example               # Cetak biru variabel lingkungan
 ├── database.sql               # Skema basis data resmi (clean slate)
+├── manifest.json              # Web App Manifest PWA resmi
+├── sw.js                      # Service Worker caching & offline shell
+├── offline.html               # Halaman fallback saat koneksi terputus
 ├── index.php                  # Halaman gerbang utama pemilihan
 └── vote.php                   # Alur bilik suara digital
 ```
 
 ---
 
-## 👨‍💻 Kontributor & Lisensi
+## 📄 Lisensi & Hak Cipta
 
 Didesain dan dikembangkan dengan dedikasi untuk kemajuan teknologi dan demokrasi di lingkungan **SMKS Semen Gresik**.
 
