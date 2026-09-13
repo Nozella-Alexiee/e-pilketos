@@ -67,22 +67,22 @@ Alur pemilihan terintegrasi yang dirender langsung secara native:
 flowchart TD
     classDef user fill:#511524,stroke:#3b0e1a,stroke-width:2px,color:#fff;
     classDef process fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#1e293b;
+    classDef ai fill:#b45309,stroke:#92400e,stroke-width:1.5px,color:#fff;
     classDef secure fill:#047857,stroke:#065f46,stroke-width:1px,color:#fff;
+    classDef danger fill:#dc2626,stroke:#991b1b,stroke-width:1px,color:#fff;
 
-    A[👤 Pemilih Datang di Bilik Suara]:::user --> B{Jalur Pemilih}
-    B -->|Siswa| C[Pilih Kelas & Nomor Absen]:::process
-    B -->|Guru & Karyawan| D[Pilih Kategori & Masukkan NIP]:::process
-
-    C --> E[📸 Pindai Wajah Biometrik AI]:::process
-    D --> E
-
-    E -->|Wajah Terverifikasi| F[🗳️ Buka Surat Suara Digital]:::process
-    E -->|Kendala Kamera / Cahaya| G[Verifikasi Manual oleh Panitia]:::process
-    G --> F
+    A[👤 Pemilih Berdiri di Depan Kamera]:::user --> B[📸 Pindai Wajah Real-Time di Kamera]:::ai
+    B --> C{Pencocokan AI Biometrik 128D}:::ai
+    
+    C -->|Terdeteksi: Siswa / Guru| D{Cek Status Hak Suara}:::process
+    C -->|Wajah Tidak Cocok / Belum Terdaftar| E[❌ Akses Ditolak: Belum Terdaftar di DPT]:::danger
+    
+    D -->|Belum Memilih| F[🗳️ Surat Suara Digital Terbuka Otomatis]:::process
+    D -->|Sudah Memilih| G[⛔ Akses Ditolak: Hak Suara Sudah Digunakan]:::danger
 
     F --> H{Konfirmasi Pilihan Paslon}:::process
-    H -->|Kunci Suara| I[🔒 Update Status has_voted = 1]:::secure
-    H -->|Kunci Suara| J[📦 Simpan ke Kotak Suara votes]:::secure
+    H -->|Kunci Suara| I[🔒 Kunci Status Hak Suara has_voted = 1]:::secure
+    H -->|Kunci Suara| J[📦 Kotak Suara Anonim votes - Secret Ballot]:::secure
 ```
 
 ---
