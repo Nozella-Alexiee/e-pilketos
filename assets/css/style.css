@@ -808,3 +808,135 @@ main {
         margin-top: 10px;
     }
 }
+
+/* ==========================================================================
+   Tablet (768px - 1024px) & Kiosk Responsiveness
+   Optimized for iPad, Galaxy Tab, and Touchscreen Laptops
+   ========================================================================== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        max-width: 95%;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    /* 2-Column layout on Tablet Portrait */
+    .ballot-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 18px;
+    }
+
+    .ballot-photo-wrap {
+        height: 240px;
+    }
+
+    /* Touchscreen Tablet targets */
+    .btn-vote-candidate {
+        min-height: 48px;
+        font-size: 15px;
+    }
+
+    .school-topbar .container {
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+}
+
+/* Touch Device Universal Target Sizing */
+@media (pointer: coarse) {
+    .btn,
+    .btn-vote-candidate,
+    .form-select,
+    .form-control,
+    .nav-link-inst {
+        min-height: 44px;
+    }
+}
+
+/* PWA Standalone Mode Adjustments (Kiosk Feel) */
+@media (display-mode: standalone) {
+    .school-topbar {
+        padding-top: max(10px, env(safe-area-inset-top));
+    }
+
+    body {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    input, textarea, select {
+        user-select: auto;
+        -webkit-user-select: auto;
+    }
+}
+
+/* ==========================================================================
+   PWA Floating Install Banner
+   ========================================================================== */
+.pwa-floating-banner {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--maroon-700);
+    border-radius: 12px;
+    padding: 12px 18px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    z-index: 1060;
+    max-width: 520px;
+    width: calc(100% - 32px);
+    animation: pwaSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pwa-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pwa-banner-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.pwa-banner-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--maroon-900);
+    line-height: 1.2;
+}
+
+.pwa-banner-sub {
+    font-size: 11.5px;
+    color: var(--ink-secondary);
+    margin-top: 3px;
+}
+
+.pwa-banner-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+@keyframes pwaSlideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 24px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+

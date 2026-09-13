@@ -28,6 +28,15 @@ $currentScript = basename($_SERVER['PHP_SELF']);
     <!-- SMK SIG Institutional CSS -->
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="icon" type="image/png" href="../assets/images/logo-smk-sig.png">
+
+    <!-- PWA Settings & Manifest -->
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#511524">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="E-Pilketos Admin">
+    <link rel="apple-touch-icon" href="../assets/images/icons/apple-touch-icon.png">
 </head>
 <body class="bg-light">
 

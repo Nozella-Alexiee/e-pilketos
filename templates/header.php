@@ -25,6 +25,15 @@ $pageTitle = $pageTitle ?? 'E-Pilketos v2.0 - SMK SIG';
     <!-- SMK SIG Institutional Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" type="image/png" href="assets/images/logo-smk-sig.png">
+
+    <!-- PWA Settings & Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#511524">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="E-Pilketos">
+    <link rel="apple-touch-icon" href="assets/images/icons/apple-touch-icon.png">
 </head>
 <body>
 
@@ -42,6 +51,10 @@ $pageTitle = $pageTitle ?? 'E-Pilketos v2.0 - SMK SIG';
             <span class="d-none d-md-inline-block text-white-50 small">
                 Periode <?= e($settings['election_period']) ?>
             </span>
+            <!-- Tombol Pasang Aplikasi PWA (Muncul otomatis di Tablet/HP) -->
+            <button id="pwaInstallBtn" type="button" class="btn btn-sm btn-warning py-1 px-2.5 d-none align-items-center gap-1 shadow-sm" style="font-size: 12px; font-weight: 600;">
+                <i class="bi bi-download"></i> Pasang Aplikasi
+            </button>
             <a href="admin/login.php" class="btn btn-sm btn-outline-light py-1 px-2.5" style="font-size: 12px;">
                 <i class="bi bi-shield-lock me-1"></i>Portal Admin
             </a>

@@ -74,6 +74,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="icon" type="image/png" href="../assets/images/logo-smk-sig.png">
+
+    <!-- PWA Settings & Manifest -->
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#511524">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Admin E-Pilketos">
+    <link rel="apple-touch-icon" href="../assets/images/icons/apple-touch-icon.png">
     <style>
         body {
             background: linear-gradient(180deg, #511524 0%, #3c101d 100%);
@@ -164,5 +173,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
+<!-- PWA Service Worker JS -->
+<script src="../assets/js/pwa.js"></script>
 </body>
 </html>
+

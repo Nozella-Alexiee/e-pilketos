@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koneksi Terputus — E-Pilketos SMK SIG</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/png" href="assets/images/icons/icon-192x192.png">
+    <style>
+        .offline-wrapper {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            text-align: center;
+        }
+        .offline-card {
+            background: #ffffff;
+            border: 1px solid var(--line, #e2e8f0);
+            border-radius: 12px;
+            padding: 40px 24px;
+            max-width: 460px;
+            width: 100%;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+        .offline-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 20px;
+            color: var(--maroon-700, #7b1113);
+        }
+        .offline-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--maroon-900, #511524);
+            margin-bottom: 12px;
+        }
+        .offline-desc {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        .btn-retry {
+            display: inline-block;
+            background: var(--maroon-900, #511524);
+            color: #ffffff;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s;
+        }
+        .btn-retry:hover {
+            background: #3b0e1a;
+        }
+    </style>
+</head>
+<body class="school-body">
+    <div class="offline-wrapper">
+        <div class="offline-card">
+            <svg class="offline-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 4.243a9 9 0 01-5.657-2.828m0 0l2.829-2.829m-2.829 2.829L3 21m2.828-12.728a9 9 0 015.657-2.828m0 0l2.829 2.829M9 12a3 3 0 106 0 3 3 0 00-6 0z"></path>
+            </svg>
+            <h1 class="offline-title">Perangkat Sedang Offline</h1>
+            <p class="offline-desc">
+                Koneksi jaringan ke server E-Pilketos SMK Semen Gresik terputus. Pastikan perangkat tablet/HP terhubung ke jaringan Wi-Fi sekolah, lalu coba kembali.
+            </p>
+            <button class="btn-retry" onclick="window.location.reload()">Muat Ulang Halaman</button>
+        </div>
+    </div>
+</body>
+</html>

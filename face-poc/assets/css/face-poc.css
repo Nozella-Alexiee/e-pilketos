@@ -442,3 +442,35 @@ body {
     justify-content: center;
     margin-top: 20px;
 }
+
+/* ==========================================================================
+   Tablet (768px - 1024px) & Kiosk Responsiveness
+   ========================================================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .kiosk-container {
+        max-width: 92%;
+        margin: 20px auto;
+    }
+
+    .camera-container {
+        max-height: 480px;
+    }
+
+    .kiosk-btn {
+        min-height: 48px;
+        font-size: 15px;
+    }
+}
+
+/* PWA Standalone Kiosk Mode */
+@media (display-mode: standalone) {
+    .kiosk-header {
+        padding-top: max(14px, env(safe-area-inset-top));
+    }
+
+    body {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+

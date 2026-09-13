@@ -71,9 +71,29 @@
     </div>
 </footer>
 
+<!-- Floating PWA Install Banner for Mobile & Tablet -->
+<div id="pwaInstallBanner" class="pwa-floating-banner" style="display: none;">
+    <div class="pwa-banner-content">
+        <img src="assets/images/icons/icon-192x192.png" alt="E-Pilketos" class="pwa-banner-icon">
+        <div>
+            <div class="pwa-banner-title">Pasang E-Pilketos di Layar Utama</div>
+            <div class="pwa-banner-sub">Akses instan bilik suara full-screen tanpa browser bar</div>
+        </div>
+    </div>
+    <div class="pwa-banner-actions">
+        <button type="button" class="btn btn-sm btn-primary pwa-btn-action" style="background: var(--maroon-900); border: none;">
+            <i class="bi bi-download me-1"></i>Pasang
+        </button>
+        <button type="button" class="btn-close pwa-banner-close" onclick="document.getElementById('pwaInstallBanner').style.display='none'" aria-label="Close"></button>
+    </div>
+</div>
+
 <!-- Bootstrap 5.3.3 JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Client Custom JS -->
 <script src="assets/js/app.js"></script>
+<!-- PWA Service Worker & Installer JS -->
+<script src="assets/js/pwa.js"></script>
 </body>
 </html>
+

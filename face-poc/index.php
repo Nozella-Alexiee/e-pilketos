@@ -31,6 +31,16 @@ $baseHref = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\') . '/';
     <meta name="csrf-token" content="<?= e(csrf_token()) ?>">
     <link rel="stylesheet" href="assets/css/face-poc.css">
     <link rel="icon" type="image/png" href="../assets/images/logo-smk-sig.png">
+
+    <!-- PWA Settings & Manifest -->
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#511524">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Bilik E-Pilketos">
+    <link rel="apple-touch-icon" href="../assets/images/icons/apple-touch-icon.png">
+
     <!-- Preload Model Weights agar diunduh lebih awal oleh browser -->
     <link rel="preload" href="assets/models/tiny_face_detector_model-weights_manifest.json" as="fetch" crossorigin="anonymous">
     <link rel="preload" href="assets/models/tiny_face_detector_model.bin" as="fetch" crossorigin="anonymous">
@@ -117,5 +127,7 @@ $baseHref = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\') . '/';
     <!-- Dependencies: Vanilla Face-API.js Bundle & Recognition Controller -->
     <script src="assets/js/face-api.js"></script>
     <script src="assets/js/face-poc-recognize.js"></script>
+    <script src="../assets/js/pwa.js"></script>
 </body>
 </html>
+
