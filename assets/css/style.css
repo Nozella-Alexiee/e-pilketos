@@ -1,0 +1,810 @@
+/**
+ * E-Pilketos v2.0 - Institutional Design System
+ * SMK SIG (Sekolah Menengah Kejuruan SIG)
+ * Restrained, clean, functional, professional.
+ */
+
+:root {
+    --maroon-950: #3c101d;
+    --maroon-900: #511524;
+    --maroon-800: #6e1f31;
+    --maroon-700: #88283d;
+    --maroon-100: #f4e8ea;
+    --maroon-050: #fbf5f6;
+
+    --ink-primary: #1f2328;
+    --ink-secondary: #57606a;
+    --ink-tertiary: #8c959f;
+
+    --canvas: #f6f7f8;
+    --paper: #ffffff;
+    --surface-subtle: #f0f2f4;
+    --line: #d0d7de;
+    --line-subtle: #e8ecf0;
+
+    --success: #1a7f37;
+    --success-bg: #dafbe1;
+    --warning: #9a6700;
+    --warning-bg: #fff8c5;
+    --danger: #cf222e;
+    --danger-bg: #ffebe9;
+
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+
+    --shadow-subtle: 0 1px 3px rgba(31, 35, 40, 0.08);
+    --shadow-card: 0 1px 4px rgba(31, 35, 40, 0.1), 0 3px 8px rgba(31, 35, 40, 0.04);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--canvas);
+    color: var(--ink-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Fractional Spacing Utilities */
+.p-2\.5 { padding: 0.75rem !important; }
+.py-2\.5 { padding-top: 0.625rem !important; padding-bottom: 0.625rem !important; }
+.px-2\.5 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+
+/* Institutional Top Banner & Nav */
+.school-topbar {
+    background-color: var(--maroon-900);
+    color: #ffffff;
+    border-bottom: 2px solid var(--maroon-700);
+    padding: 10px 0;
+}
+
+.school-brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.school-brand-lockup img {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+    background: #ffffff;
+    padding: 2px;
+    border-radius: var(--radius-sm);
+}
+
+.school-brand-text {
+    line-height: 1.2;
+}
+
+.school-brand-title {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+}
+
+.school-brand-subtitle {
+    font-size: 11.5px;
+    color: #e5b9c2;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+/* Institutional Navigation */
+.navbar-institutional {
+    background: #ffffff;
+    border-bottom: 1px solid var(--line);
+    padding: 8px 0;
+}
+
+.nav-link-inst {
+    color: var(--ink-secondary);
+    font-weight: 500;
+    font-size: 13.5px;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.nav-link-inst:hover {
+    color: var(--maroon-800);
+    background-color: var(--maroon-050);
+}
+
+.nav-link-inst.active {
+    color: var(--maroon-900);
+    background-color: var(--maroon-100);
+    font-weight: 600;
+}
+
+/* Hero Section - Functional, clean, restrained */
+.hero-inst {
+    background: #ffffff;
+    border-bottom: 1px solid var(--line);
+    padding: 32px 0 28px;
+    position: relative;
+}
+
+.hero-inst.has-bg {
+    background-color: #ffffff;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.96) 35%, rgba(255, 255, 255, 0.88) 100%), url('../images/campus-hero.jpg');
+    background-size: cover;
+    background-position: center right;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+}
+
+.badge-open {
+    background: var(--success-bg);
+    color: var(--success);
+    border: 1px solid rgba(26, 127, 55, 0.2);
+}
+
+.badge-draft {
+    background: var(--warning-bg);
+    color: var(--warning);
+    border: 1px solid rgba(154, 103, 0, 0.2);
+}
+
+.badge-closed {
+    background: var(--danger-bg);
+    color: var(--danger);
+    border: 1px solid rgba(207, 34, 46, 0.2);
+}
+
+.hero-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--maroon-950);
+    letter-spacing: -0.02em;
+    margin: 0 0 8px;
+    line-height: 1.25;
+}
+
+.hero-desc {
+    font-size: 15px;
+    color: var(--ink-secondary);
+    margin: 0 0 20px;
+    max-width: 620px;
+}
+
+/* Institutional Buttons */
+.btn-sig {
+    background-color: var(--maroon-800);
+    color: #ffffff;
+    border: 1px solid var(--maroon-900);
+    padding: 9px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+
+.btn-sig:hover, .btn-sig:focus {
+    background-color: var(--maroon-900);
+    color: #ffffff;
+}
+
+.btn-sig-outline {
+    background-color: transparent;
+    color: var(--maroon-800);
+    border: 1px solid var(--maroon-800);
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-sig-outline:hover {
+    background-color: var(--maroon-050);
+    color: var(--maroon-950);
+}
+
+.btn-sig-secondary {
+    background-color: #ffffff;
+    color: var(--ink-primary);
+    border: 1px solid var(--line);
+    padding: 8px 16px;
+    font-size: 13.5px;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-sig-secondary:hover {
+    background-color: var(--surface-subtle);
+    color: var(--ink-primary);
+}
+
+/* Cards & Layout */
+.card-inst {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-subtle);
+    overflow: hidden;
+}
+
+.card-inst-header {
+    background: #fafbfc;
+    border-bottom: 1px solid var(--line);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-inst-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-primary);
+    margin: 0;
+}
+
+.card-inst-body {
+    padding: 18px;
+}
+
+/* Stepper Bar for Voting Flow */
+.vote-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 10px 16px;
+    margin-bottom: 24px;
+}
+
+.stepper-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-tertiary);
+}
+
+.stepper-item.active {
+    color: var(--maroon-900);
+    font-weight: 700;
+}
+
+.stepper-item.completed {
+    color: var(--success);
+}
+
+.stepper-badge {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    background: var(--surface-subtle);
+    color: var(--ink-secondary);
+    border: 1px solid var(--line);
+}
+
+.stepper-item.active .stepper-badge {
+    background: var(--maroon-800);
+    color: #ffffff;
+    border-color: var(--maroon-900);
+}
+
+.stepper-item.completed .stepper-badge {
+    background: var(--success);
+    color: #ffffff;
+    border-color: var(--success);
+}
+
+.stepper-divider {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+    margin: 0 12px;
+}
+
+/* Digital Ballot / Candidate Cards */
+.ballot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.ballot-card {
+    background: #ffffff;
+    border: 2px solid var(--line);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ballot-card:hover {
+    border-color: var(--maroon-700);
+    box-shadow: var(--shadow-card);
+}
+
+.ballot-number-badge {
+    background: var(--maroon-900);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 20px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    letter-spacing: 0.03em;
+}
+
+.ballot-number-sub {
+    font-size: 11px;
+    font-weight: 600;
+    color: #e5b9c2;
+    text-transform: uppercase;
+}
+
+.ballot-photo-wrap {
+    height: 250px;
+    background: #f0f2f4;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ballot-photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.ballot-info {
+    padding: 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.ballot-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink-primary);
+    margin: 0 0 4px;
+    line-height: 1.3;
+}
+
+.ballot-class {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--maroon-800);
+    margin-bottom: 12px;
+}
+
+.ballot-section-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-secondary);
+    margin: 8px 0 4px;
+}
+
+.ballot-vision-text {
+    font-size: 13px;
+    color: var(--ink-secondary);
+    line-height: 1.45;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ballot-actions {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--line-subtle);
+    display: flex;
+    gap: 8px;
+}
+
+.btn-vote-candidate {
+    flex: 1;
+    background: var(--maroon-800);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 10px;
+    border: 1px solid var(--maroon-900);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.15s ease;
+}
+
+.btn-vote-candidate:hover {
+    background: var(--maroon-900);
+    color: #ffffff;
+}
+
+/* Student & Class Selection Grids */
+.class-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+}
+
+.class-btn {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 12px 10px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--ink-primary);
+    transition: all 0.12s ease;
+}
+
+.class-btn:hover {
+    border-color: var(--maroon-800);
+    background: var(--maroon-050);
+    color: var(--maroon-950);
+}
+
+.class-btn-name {
+    font-size: 14px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.class-btn-sub {
+    font-size: 11px;
+    color: var(--ink-secondary);
+}
+
+/* Student Attendance List */
+.student-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+}
+
+.student-item {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink-primary);
+    transition: all 0.12s ease;
+}
+
+.student-item:not(.voted):hover {
+    border-color: var(--maroon-800);
+    background: var(--maroon-050);
+}
+
+.student-item.voted {
+    background: #f8f9fa;
+    border-color: var(--line-subtle);
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.student-absen-badge {
+    width: 32px;
+    height: 32px;
+    background: var(--surface-subtle);
+    border: 1px solid var(--line);
+    color: var(--ink-primary);
+    font-weight: 700;
+    font-size: 13px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.student-name-wrap {
+    flex: 1;
+    overflow: hidden;
+}
+
+.student-name {
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+/* Confirmation Modal & Card */
+.confirm-box {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    max-width: 520px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-card);
+}
+
+/* Admin Dashboard Tables & Elements */
+.table-inst {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.table-inst th {
+    background: #f6f8fa;
+    color: var(--ink-secondary);
+    font-weight: 600;
+    text-align: left;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.table-inst td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line-subtle);
+    color: var(--ink-primary);
+    vertical-align: middle;
+}
+
+.table-inst tr:hover td {
+    background-color: #fcfcfc;
+}
+
+/* Institutional Footer */
+.school-footer {
+    background: #ffffff;
+    border-top: 1px solid var(--line);
+    padding: 24px 0;
+    margin-top: 40px;
+    color: var(--ink-secondary);
+    font-size: 12.5px;
+}
+
+.school-footer-brand {
+    font-weight: 700;
+    color: var(--maroon-900);
+}
+
+/* ==========================================================================
+   Comprehensive Mobile & Tablet Responsiveness Adjustments
+   Optimized for Android & iOS (360px - 768px viewports)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        font-size: 14px;
+    }
+
+    /* Prevent iOS Safari auto-zoom on input focus */
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    select.form-select,
+    textarea.form-control {
+        font-size: 16px !important;
+    }
+
+    /* Container Spacing */
+    .container {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    /* Institutional Topbar on Mobile */
+    .school-topbar {
+        padding: 8px 0;
+    }
+    .school-brand-lockup img {
+        height: 36px;
+    }
+    .school-brand-title {
+        font-size: 15px;
+    }
+    .school-brand-subtitle {
+        font-size: 10px;
+        max-width: 170px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Sub-Navbar Horizontal Scrollable */
+    .navbar-institutional {
+        padding: 4px 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .navbar-institutional::-webkit-scrollbar {
+        display: none;
+    }
+    .navbar-institutional .container,
+    .navbar-institutional .container-fluid {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: max-content;
+        min-width: 100%;
+        flex-wrap: nowrap !important;
+    }
+    .navbar-institutional .container-fluid > div {
+        flex-wrap: nowrap !important;
+    }
+    .nav-link-inst {
+        padding: 6px 12px;
+        font-size: 12.5px;
+        white-space: nowrap;
+    }
+
+    /* Portal Landing Page */
+    .portal-header-box {
+        padding: 20px 14px 18px !important;
+    }
+    .portal-school-logo {
+        height: 68px !important;
+        margin-bottom: 8px !important;
+    }
+    .portal-header-box h1 {
+        font-size: 20px !important;
+    }
+    .portal-header-box .text-danger {
+        font-size: 13.5px !important;
+    }
+    .portal-choice-card {
+        padding: 20px 16px !important;
+    }
+    .portal-choice-icon {
+        width: 48px !important;
+        height: 48px !important;
+        font-size: 24px !important;
+        margin-bottom: 12px !important;
+    }
+
+    /* Bilik Suara: Form Identitas Pemilih */
+    .card-inst-body {
+        padding: 16px !important;
+    }
+    .card-inst-header {
+        padding: 12px 14px !important;
+    }
+
+    /* Voter Identity Banner on Mobile */
+    .voter-identity-banner {
+        padding: 12px 14px !important;
+        gap: 12px !important;
+    }
+    .voter-identity-banner .absen-box {
+        min-width: 46px !important;
+        padding: 4px 8px !important;
+    }
+
+    /* Candidate Cards on Mobile (Surat Suara Digital) */
+    .ballot-card {
+        margin-bottom: 18px;
+        border-width: 1.5px;
+    }
+    .ballot-number-badge {
+        font-size: 17px;
+        padding: 8px 14px;
+    }
+    .ballot-number-sub {
+        font-size: 10px;
+    }
+    .ballot-photo-wrap {
+        height: 220px !important;
+    }
+    .ballot-info {
+        padding: 14px !important;
+    }
+    .ballot-name {
+        font-size: 16px;
+    }
+
+    /* Touch-Friendly Action Buttons */
+    .btn-sig,
+    .btn-vote-candidate {
+        min-height: 48px;
+        font-size: 15px !important;
+        padding: 12px 16px !important;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Modals on Mobile */
+    .modal-dialog {
+        margin: 12px;
+    }
+    .modal-content {
+        border-radius: var(--radius-md);
+    }
+    .modal-body {
+        padding: 18px 16px !important;
+    }
+    .modal-footer {
+        padding: 10px 14px !important;
+    }
+    .modal-footer .btn {
+        min-height: 42px;
+    }
+
+    /* Footer on Mobile */
+    .school-footer {
+        padding: 18px 0;
+        text-align: center;
+    }
+    .school-footer .text-md-end {
+        text-align: center !important;
+        margin-top: 10px;
+    }
+}

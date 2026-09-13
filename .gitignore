@@ -1,0 +1,13 @@
+# Environment file (Berisi kredensial database lokal/server)
+.env
+
+# SQLite local data
+data/*.sqlite
+data/*.sqlite-wal
+data/*.sqlite-shm
+
+# OS & Editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
