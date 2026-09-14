@@ -78,22 +78,40 @@ require_once __DIR__ . '/templates/header.php';
                 </a>
             </div>
 
-            <div class="text-center mt-3 text-muted small">
-                Bilik suara akan otomatis kembali ke kamera dalam <strong id="countdownSec" class="text-danger">10</strong> detik...
+            <div class="mt-4 pt-3 border-top">
+                <div class="d-flex align-items-center justify-content-center gap-2 text-muted small mb-2">
+                    <span class="spinner-grow spinner-grow-sm text-danger" role="status" aria-hidden="true"></span>
+                    <span>Otomatis kembali ke bilik kamera dalam <strong id="countdownSec" class="text-danger fs-6 fw-bold">3</strong> detik...</span>
+                </div>
+                <div class="progress" style="height: 4px; max-width: 260px; margin: 0 auto; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
+                    <div id="countdownProgress" class="progress-bar bg-danger" style="width: 100%; transition: width 1s linear;"></div>
+                </div>
             </div>
 
             <script>
                 (function() {
-                    let sec = 10;
+                    let sec = 3;
                     const el = document.getElementById('countdownSec');
+                    const progress = document.getElementById('countdownProgress');
+                    const targetUrl = 'face-poc/index.php';
+
                     const timer = setInterval(() => {
                         sec--;
                         if (el) el.textContent = sec;
+                        if (progress) {
+                            progress.style.width = Math.max(0, (sec / 3) * 100) + '%';
+                        }
                         if (sec <= 0) {
                             clearInterval(timer);
-                            window.location.href = 'face-poc/index.php';
+                            // Menggunakan replace agar riwayat tanda terima tidak bisa di-back di tablet
+                            window.location.replace(targetUrl);
                         }
                     }, 1000);
+
+                    // Jika pemilih/panitia sengaja klik Beranda, hentikan timer otomatis
+                    document.querySelectorAll('a[href="index.php"]').forEach(link => {
+                        link.addEventListener('click', () => clearInterval(timer));
+                    });
                 })();
             </script>
         </div>
