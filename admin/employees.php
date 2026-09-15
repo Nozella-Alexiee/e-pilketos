@@ -9,30 +9,34 @@ require_once __DIR__ . '/../config/functions.php';
 require_admin();
 $pdo = getDb();
 
-// Download Template Handler (Excel .xlsx / CSV)
+// Download Template Handler (Universal Compatible: LibreOffice, Excel & Mobile WPS)
 if (isset($_GET['action'])) {
-    if ($_GET['action'] === 'download_template_xlsx') {
-        $tmpXlsx = generate_employees_template_xlsx();
-        if ($tmpXlsx && file_exists($tmpXlsx)) {
-            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment; filename="template_guru_karyawan_smk_sig.xlsx"');
-            header('Content-Length: ' . filesize($tmpXlsx));
-            readfile($tmpXlsx);
-            unlink($tmpXlsx);
-            exit;
+    if (in_array($_GET['action'], ['download_template_xlsx', 'download_template', 'download_template_csv'], true)) {
+        // Hapus total semua isi output buffer agar file bersih dari spasi/HTML leak
+        while (ob_get_level()) {
+            ob_end_clean();
         }
-    } elseif ($_GET['action'] === 'download_template' || $_GET['action'] === 'download_template_csv') {
+
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename="template_guru_karyawan_smk_sig.csv"');
+        header('Cache-Control: max-age=0, no-cache, must-revalidate');
+        header('Pragma: public');
+        
         $output = fopen('php://output', 'w');
-        // UTF-8 BOM for Excel compatibility
+        
+        // UTF-8 BOM agar LibreOffice Calc, MS Excel & WPS Office langsung baca ber-kolom rapi
         fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+        
+        // Header Kolom
         fputcsv($output, ['NIP', 'Nama', 'Tipe']);
+        
+        // Data Sampel/Contoh
         fputcsv($output, ['197508122005011004', 'Choirul Ichsan, S.Psi.', 'guru']);
         fputcsv($output, ['198804212011012015', 'Hajar Alia Rachmi, S.Pd.', 'guru']);
         fputcsv($output, ['198501012010011001', 'Budi Santoso, S.Pd.', 'guru']);
         fputcsv($output, ['199003152018021002', 'Siti Aminah', 'karyawan']);
         fputcsv($output, ['199507202022031003', 'Ahmad Fauzi', 'karyawan']);
+        
         fclose($output);
         exit;
     }
