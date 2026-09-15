@@ -77,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $letterCity,
                 $now
             ]);
+            log_activity($pdo, 'UPDATE_SETTINGS', "Memperbarui konfigurasi pemilihan. Nama: '$electionName', Periode: '$electionPeriod', Status: '$electionStatus', Tampilkan Hasil: " . ($showResults ? 'Ya' : 'Tidak'));
             set_flash('success', 'Pengaturan pemilihan, surat berita acara, dan pejabat pengesah berhasil diperbarui.');
         }
     } elseif ($action === 'change_password') {
@@ -98,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $newHash = password_hash($newPass, PASSWORD_BCRYPT);
             $pdo->prepare("UPDATE users SET password_hash = ? WHERE id = ?")->execute([$newHash, $adminId]);
+            log_activity($pdo, 'CHANGE_PASSWORD', "Mengubah kata sandi akun admin sendiri (ID: $adminId)");
             set_flash('success', 'Kata sandi admin berhasil diubah.');
         }
     } elseif ($action === 'reset_all_votes') {
@@ -111,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $pdo->exec("DELETE FROM votes");
                 $pdo->exec("UPDATE students SET has_voted = 0, voted_at = NULL");
                 $pdo->commit();
+                log_activity($pdo, 'RESET_ALL_VOTES', "Mereset dan mengosongkan seluruh data suara serta status memilih pemilih");
                 set_flash('success', 'Seluruh data suara berhasil dikosongkan dan status memilih siswa telah direset.');
             } catch (PDOException $e) {
                 if ($pdo->inTransaction()) $pdo->rollBack();
@@ -177,6 +180,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($pdo->inTransaction()) {
                     $pdo->commit();
                 }
+
+                log_activity($pdo, 'RESET_NEW_ELECTION', "Reset pemilihan baru: mengosongkan seluruh suara, siswa, dan kandidat");
 
                 // Reset AUTO_INCREMENT setelah transaksi commit (DDL statement)
                 if (defined('DB_DRIVER') && DB_DRIVER !== 'sqlite') {

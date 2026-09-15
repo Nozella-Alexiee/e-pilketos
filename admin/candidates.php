@@ -76,6 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $stmt = $pdo->prepare("INSERT INTO candidates (number, name, class, photo, vision, mission, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([$number, $name, $class, $photoPath, $vision, $mission, $isActive]);
+                $newId = (int)$pdo->lastInsertId();
+                log_activity($pdo, 'ADD_CANDIDATE', "Menambahkan kandidat nomor urut $number: '$name' ($class, ID: $newId)");
                 set_flash('success', "Kandidat nomor urut $number ($name) berhasil ditambahkan.");
             } catch (Exception $e) {
                 if (strpos($e->getMessage(), 'UNIQUE') !== false) {
@@ -111,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $stmt = $pdo->prepare("UPDATE candidates SET number = ?, name = ?, class = ?, photo = ?, vision = ?, mission = ?, is_active = ? WHERE id = ?");
                 $stmt->execute([$number, $name, $class, $photoPath, $vision, $mission, $isActive, $id]);
+                log_activity($pdo, 'EDIT_CANDIDATE', "Memperbarui data kandidat ID $id: No. $number - '$name' ($class)");
                 set_flash('success', "Data kandidat nomor $number berhasil diperbarui.");
             } catch (Exception $e) {
                 if (strpos($e->getMessage(), 'UNIQUE') !== false) {
@@ -125,6 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $currStatus = (int)($_POST['current_status'] ?? 1);
         $newStatus = ($currStatus === 1) ? 0 : 1;
         $pdo->prepare("UPDATE candidates SET is_active = ? WHERE id = ?")->execute([$newStatus, $id]);
+        log_activity($pdo, 'TOGGLE_CANDIDATE', "Mengubah status aktif kandidat ID $id menjadi " . ($newStatus ? 'Aktif' : 'Non-aktif'));
         set_flash('success', 'Status keaktifan kandidat berhasil diubah.');
     } elseif ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
@@ -136,7 +140,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($votesCount > 0) {
             set_flash('danger', "Kandidat tidak dapat dihapus karena sudah memiliki $votesCount suara masuk. Anda dapat menonaktifkan status kandidat.");
         } else {
+            $candCheck = $pdo->prepare("SELECT number, name FROM candidates WHERE id = ?");
+            $candCheck->execute([$id]);
+            $candRow = $candCheck->fetch(PDO::FETCH_ASSOC);
+
             $pdo->prepare("DELETE FROM candidates WHERE id = ?")->execute([$id]);
+            $candName = $candRow ? "No. {$candRow['number']} ({$candRow['name']})" : "ID $id";
+            log_activity($pdo, 'DELETE_CANDIDATE', "Menghapus kandidat: $candName");
             set_flash('success', 'Data kandidat berhasil dihapus.');
         }
     }

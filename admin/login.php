@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (empty($username) || $password === '') {
             $error = 'Harap isi nama pengguna (username) dan kata sandi.';
         } else {
-            $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? AND role = 'admin' LIMIT 1");
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? AND role IN ('admin', 'superadmin') LIMIT 1");
             $stmt->execute([$username]);
             $user = $stmt->fetch();
 
@@ -38,12 +38,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Regenerate session ID to prevent session fixation
                 session_regenerate_id(true);
                 $_SESSION['admin_logged_in'] = true;
-                $_SESSION['admin_id'] = $user['id'];
+                $_SESSION['admin_id'] = (int)$user['id'];
                 $_SESSION['admin_username'] = $user['username'];
                 $_SESSION['admin_name'] = $user['name'];
                 $_SESSION['admin_role'] = $user['role'];
                 $_SESSION['admin_last_activity'] = time();
                 unset($_SESSION['admin_login_attempt']);
+
+                // Log audit trail
+                log_activity($pdo, 'LOGIN_SUCCESS', 'Berhasil login ke panel admin sebagai ' . ucfirst($user['role']), $user['username'], $user['role'], (int)$user['id']);
 
                 set_flash('success', 'Selamat datang, ' . $user['name'] . '! Anda berhasil masuk ke panel admin.');
                 header('Location: index.php');
@@ -53,6 +56,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'count' => (int)$attempt['count'] + 1,
                     'last' => time(),
                 ];
+
+                // Log failed attempt
+                log_activity($pdo, 'LOGIN_FAILED', 'Gagal login (username atau kata sandi tidak cocok) untuk: ' . $username, $username, 'guest');
+
                 $error = 'Kombinasi nama pengguna atau kata sandi tidak cocok.';
             }
         }

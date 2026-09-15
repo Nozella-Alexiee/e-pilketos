@@ -31,6 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $stmt = $pdo->prepare("INSERT INTO classes (name, grade, major, is_active) VALUES (?, ?, ?, ?)");
                 $stmt->execute([$name, $grade, $major, $isActive]);
+                $newId = (int)$pdo->lastInsertId();
+                log_activity($pdo, 'ADD_CLASS', "Menambahkan kelas baru: '$name' ($grade - $major, ID: $newId)");
                 set_flash('success', "Kelas '$name' berhasil ditambahkan.");
             } catch (PDOException $e) {
                 if (strpos($e->getMessage(), 'UNIQUE') !== false) {
@@ -51,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $stmt = $pdo->prepare("UPDATE classes SET name = ?, grade = ?, major = ?, is_active = ? WHERE id = ?");
                 $stmt->execute([$name, $grade, $major, $isActive, $id]);
+                log_activity($pdo, 'EDIT_CLASS', "Memperbarui kelas ID $id: '$name' ($grade - $major)");
                 set_flash('success', "Data kelas '$name' berhasil diperbarui.");
             } catch (PDOException $e) {
                 set_flash('danger', 'Gagal memperbarui kelas: ' . $e->getMessage());
@@ -61,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $status = (int)($_POST['current_status'] ?? 1);
         $newStatus = ($status === 1) ? 0 : 1;
         $pdo->prepare("UPDATE classes SET is_active = ? WHERE id = ?")->execute([$newStatus, $id]);
+        log_activity($pdo, 'TOGGLE_CLASS', "Mengubah status aktif kelas ID $id menjadi " . ($newStatus ? 'Aktif' : 'Non-aktif'));
         set_flash('success', 'Status kelas berhasil diperbarui.');
     } elseif ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
@@ -72,7 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($studentCount > 0) {
             set_flash('danger', "Kelas tidak dapat dihapus karena masih memiliki $studentCount data siswa terdaftar. Hapus data siswa terlebih dahulu atau nonaktifkan kelas.");
         } else {
+            $className = $pdo->query("SELECT name FROM classes WHERE id = $id")->fetchColumn() ?: "ID $id";
             $pdo->prepare("DELETE FROM classes WHERE id = ?")->execute([$id]);
+            log_activity($pdo, 'DELETE_CLASS', "Menghapus kelas ID $id: '$className'");
             set_flash('success', 'Kelas berhasil dihapus.');
         }
     }

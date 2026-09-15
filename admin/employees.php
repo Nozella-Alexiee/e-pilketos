@@ -62,6 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $stmt = $pdo->prepare("INSERT INTO employees (nip, name, type, has_voted) VALUES (?, ?, ?, 0)");
                 $stmt->execute([$nip, $name, $type]);
+                $newId = (int)$pdo->lastInsertId();
+                log_activity($pdo, 'ADD_EMPLOYEE', "Menambahkan " . ucfirst($type) . " baru: '$name' (NIP: $nip, ID: $newId)");
                 set_flash('success', "Data " . ucfirst($type) . " '$name' (NIP: $nip) berhasil ditambahkan.");
             } catch (PDOException $e) {
                 if (strpos($e->getMessage(), 'UNIQUE') !== false || strpos($e->getMessage(), '1062') !== false) {
@@ -84,9 +86,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $stmt = $pdo->prepare("UPDATE employees SET nip = ?, name = ?, type = ? WHERE id = ?");
                 $stmt->execute([$nip, $name, $type, $id]);
+                log_activity($pdo, 'EDIT_EMPLOYEE', "Memperbarui data " . ucfirst($type) . " ID $id: '$name' (NIP: $nip)");
 
                 if (!empty($_POST['reset_face']) && (int)$_POST['reset_face'] === 1) {
                     $pdo->prepare("UPDATE employees SET face_descriptor = NULL, face_enrolled_at = NULL WHERE id = ?")->execute([$id]);
+                    log_activity($pdo, 'RESET_FACE_EMPLOYEE', "Mereset biometrik wajah " . ucfirst($type) . " ID $id ('$name') via modal edit");
                     set_flash('success', "Data '$name' berhasil diperbarui & biometrik wajah direset.");
                 } else {
                     set_flash('success', "Data '$name' berhasil diperbarui.");
@@ -102,12 +106,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
         try {
-            $check = $pdo->prepare("SELECT has_voted FROM employees WHERE id = ?");
+            $check = $pdo->prepare("SELECT name, nip, has_voted FROM employees WHERE id = ?");
             $check->execute([$id]);
-            if ((int)$check->fetchColumn() === 1) {
+            $empRow = $check->fetch(PDO::FETCH_ASSOC);
+            if (!$empRow) {
+                throw new RuntimeException('Data tidak ditemukan.');
+            }
+            if ((int)$empRow['has_voted'] === 1) {
                 throw new RuntimeException('Guru/Karyawan yang sudah memilih tidak dapat dihapus karena surat suara bersifat anonim.');
             }
             $pdo->prepare("DELETE FROM employees WHERE id = ?")->execute([$id]);
+            log_activity($pdo, 'DELETE_EMPLOYEE', "Menghapus data Guru/Karyawan ID $id ('{$empRow['name']}', NIP: {$empRow['nip']})");
             set_flash('success', 'Data Guru/Karyawan berhasil dihapus.');
         } catch (Throwable $e) {
             set_flash('danger', 'Gagal menghapus data: ' . $e->getMessage());
@@ -120,6 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $eName = $stmtName->fetchColumn() ?: 'Guru/Karyawan';
 
             $pdo->prepare("UPDATE employees SET face_descriptor = NULL, face_enrolled_at = NULL WHERE id = ?")->execute([$id]);
+            log_activity($pdo, 'RESET_FACE_EMPLOYEE', "Mereset biometrik wajah Guru/Karyawan ID $id ('$eName')");
             set_flash('success', "Biometrik wajah <strong>" . e($eName) . "</strong> berhasil direset. Kini muncul kembali di pendaftaran wajah.");
         } catch (PDOException $e) {
             set_flash('danger', 'Gagal mereset biometrik: ' . $e->getMessage());
@@ -226,6 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($inserted > 0 || $updated > 0) {
+                log_activity($pdo, 'IMPORT_EMPLOYEES', "Impor berkas Guru/Karyawan ($origName): $inserted data baru, $updated data diperbarui.");
                 $msg = "Import berhasil: <strong>$inserted data baru ditambahkan</strong>";
                 if ($updated > 0) {
                     $msg .= ", <strong>$updated data diperbarui</strong>";

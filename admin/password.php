@@ -50,6 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $updateStmt = $pdo->prepare("UPDATE users SET password_hash = ? WHERE id = ?");
         $updateStmt->execute([$newHash, $adminId]);
 
+        log_activity($pdo, 'CHANGE_PASSWORD', "Mengubah kata sandi akun sendiri (username: '{$user['username']}', role: '{$user['role']}')");
+
         // Refresh data di memori
         $user['password_hash'] = $newHash;
 

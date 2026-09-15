@@ -68,6 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $stmt = $pdo->prepare("INSERT INTO students (name, class_id, attendance_number, has_voted) VALUES (?, ?, ?, 0)");
                 $stmt->execute([$name, $classId, $attendanceNumber]);
+                $newId = (int)$pdo->lastInsertId();
+                log_activity($pdo, 'ADD_STUDENT', "Menambahkan siswa baru: '$name' (Absen: $attendanceNumber, Kelas ID: $classId, ID: $newId)");
                 set_flash('success', "Siswa '$name' berhasil ditambahkan.");
             } catch (PDOException $e) {
                 if (strpos($e->getMessage(), 'UNIQUE') !== false) {
@@ -88,10 +90,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Do not let an edit recreate a vote right after an anonymous ballot.
                 $stmt = $pdo->prepare("UPDATE students SET name = ?, class_id = ?, attendance_number = ? WHERE id = ?");
                 $stmt->execute([$name, $classId, $attendanceNumber, $id]);
+                log_activity($pdo, 'EDIT_STUDENT', "Memperbarui data siswa ID $id: '$name' (Absen: $attendanceNumber, Kelas ID: $classId)");
                 
                 // Opsi reset face biometrik dari modal edit
                 if (!empty($_POST['reset_face']) && (int)$_POST['reset_face'] === 1) {
                     $pdo->prepare("UPDATE students SET face_descriptor = NULL, face_enrolled_at = NULL WHERE id = ?")->execute([$id]);
+                    log_activity($pdo, 'RESET_FACE_STUDENT', "Mereset biometrik wajah siswa ID $id ('$name') melalui modal edit");
                     set_flash('success', "Data siswa '$name' berhasil diperbarui & biometrik wajah direset (siswa muncul kembali di pendaftaran wajah).");
                 } else {
                     set_flash('success', "Data siswa '$name' berhasil diperbarui.");
@@ -107,12 +111,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
         try {
-            $check = $pdo->prepare("SELECT has_voted FROM students WHERE id = ?");
+            $check = $pdo->prepare("SELECT name, has_voted FROM students WHERE id = ?");
             $check->execute([$id]);
-            if ((int)$check->fetchColumn() === 1) {
+            $studentRow = $check->fetch(PDO::FETCH_ASSOC);
+            if (!$studentRow) {
+                throw new RuntimeException('Data siswa tidak ditemukan.');
+            }
+            if ((int)$studentRow['has_voted'] === 1) {
                 throw new RuntimeException('Siswa yang sudah memilih tidak dapat dihapus sendiri karena surat suara bersifat anonim. Gunakan reset pemilihan global saat status DRAFT bila pemilihan memang harus diulang.');
             }
             $pdo->prepare("DELETE FROM students WHERE id = ?")->execute([$id]);
+            log_activity($pdo, 'DELETE_STUDENT', "Menghapus siswa ID $id ('{$studentRow['name']}')");
             set_flash('success', 'Data siswa berhasil dihapus.');
         } catch (Throwable $e) {
             set_flash('danger', 'Gagal menghapus siswa: ' . $e->getMessage());
@@ -127,6 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sName = $stmtName->fetchColumn() ?: 'Siswa';
 
             $pdo->prepare("UPDATE students SET face_descriptor = NULL, face_enrolled_at = NULL WHERE id = ?")->execute([$id]);
+            log_activity($pdo, 'RESET_FACE_STUDENT', "Mereset biometrik wajah siswa ID $id ('$sName')");
             set_flash('success', "Biometrik wajah <strong>" . e($sName) . "</strong> berhasil direset. Siswa kini muncul kembali di daftar pendaftaran wajah.");
         } catch (PDOException $e) {
             set_flash('danger', 'Gagal mereset biometrik wajah: ' . $e->getMessage());
@@ -305,6 +315,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 $pdo->commit();
+
+                log_activity($pdo, 'IMPORT_STUDENTS', "Impor berkas siswa ($origName): $importedCount data baru, $updatedCount data diperbarui, $newClassesCount kelas baru.");
 
                 $msg = "Import berhasil: <strong>$importedCount</strong> siswa baru tersimpan";
                 if ($updatedCount > 0) $msg .= ", <strong>$updatedCount</strong> diperbarui";

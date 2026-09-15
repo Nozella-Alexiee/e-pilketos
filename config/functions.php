@@ -65,7 +65,7 @@ function verify_csrf_token(?string $token): bool {
 }
 
 /**
- * Check if admin is currently logged in
+ * Check if admin is currently logged in (admin or superadmin)
  */
 function is_admin(): bool {
     if (empty($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
@@ -77,7 +77,28 @@ function is_admin(): bool {
         return false;
     }
     $_SESSION['admin_last_activity'] = time();
-    return ($_SESSION['admin_role'] ?? '') === 'admin';
+    return in_array($_SESSION['admin_role'] ?? '', ['admin', 'superadmin'], true);
+}
+
+/**
+ * Check if currently logged in user is superadmin
+ */
+function is_superadmin(): bool {
+    if (!is_admin()) {
+        return false;
+    }
+    return ($_SESSION['admin_role'] ?? '') === 'superadmin';
+}
+
+/**
+ * Protect superadmin only routes
+ */
+function require_superadmin(string $redirectPath = 'index.php'): void {
+    if (!is_superadmin()) {
+        set_flash('danger', 'Akses ditolak. Halaman tersebut khusus untuk Super Administrator.');
+        header('Location: ' . $redirectPath);
+        exit;
+    }
 }
 
 /**
@@ -96,6 +117,29 @@ function require_admin_api(): void {
         http_response_code(403);
         echo json_encode(['success' => false, 'message' => 'Akses panitia tidak sah atau sesi telah berakhir.']);
         exit;
+    }
+}
+
+/**
+ * Log activity to activity_logs table for audit trail
+ */
+function log_activity(PDO $pdo, string $action, string $details = '', ?string $username = null, ?string $role = null, ?int $userId = null): void {
+    try {
+        $uName = $username ?? ($_SESSION['admin_username'] ?? 'system');
+        $uRole = $role ?? ($_SESSION['admin_role'] ?? 'system');
+        $uId = $userId ?? ($_SESSION['admin_id'] ?? null);
+
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ipParts = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $ip = trim($ipParts[0]);
+        }
+        $ua = substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 255);
+
+        $stmt = $pdo->prepare("INSERT INTO activity_logs (user_id, username, role, action, details, ip_address, user_agent, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+        $stmt->execute([$uId, $uName, $uRole, $action, $details, $ip, $ua]);
+    } catch (Throwable $e) {
+        error_log("Failed to log activity: " . $e->getMessage());
     }
 }
 

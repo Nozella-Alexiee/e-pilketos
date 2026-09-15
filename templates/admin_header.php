@@ -52,8 +52,15 @@ $currentScript = basename($_SERVER['PHP_SELF']);
         </a>
         <div class="d-flex align-items-center gap-3">
             <div class="d-none d-sm-block text-end">
-                <div class="text-white small fw-bold"><?= e($_SESSION['admin_name'] ?? 'Administrator') ?></div>
-                <div class="text-white-50" style="font-size: 11px;">Operator Pilketos</div>
+                <div class="d-flex align-items-center justify-content-end gap-1.5">
+                    <span class="text-white small fw-bold"><?= e($_SESSION['admin_name'] ?? 'Administrator') ?></span>
+                    <?php if (is_superadmin()): ?>
+                        <span class="badge bg-warning text-dark px-1.5 py-0.5" style="font-size: 10px; font-weight: 700;"><i class="bi bi-shield-shaded me-0.5"></i>SUPERADMIN</span>
+                    <?php else: ?>
+                        <span class="badge bg-secondary-subtle text-light px-1.5 py-0.5" style="font-size: 10px;">ADMIN</span>
+                    <?php endif; ?>
+                </div>
+                <div class="text-white-50" style="font-size: 11px;"><?= is_superadmin() ? 'Super Administrator' : 'Operator Pilketos' ?></div>
             </div>
             <a href="../face-poc/index.php" target="_blank" class="btn btn-sm btn-outline-warning py-1 px-2" title="Buka Bilik Identifikasi Wajah (POC)">
                 <i class="bi bi-camera-video me-1"></i>Bilik Wajah (POC)
@@ -96,6 +103,14 @@ $currentScript = basename($_SERVER['PHP_SELF']);
             <a href="password.php" class="nav-link-inst <?= ($currentScript == 'password.php') ? 'active' : '' ?>">
                 <i class="bi bi-key me-1"></i>Ganti Password
             </a>
+            <?php if (is_superadmin()): ?>
+                <a href="users.php" class="nav-link-inst <?= ($currentScript == 'users.php') ? 'active' : '' ?>">
+                    <i class="bi bi-people-fill me-1 text-warning"></i>Kelola Admin
+                </a>
+                <a href="logs.php" class="nav-link-inst <?= ($currentScript == 'logs.php') ? 'active' : '' ?>">
+                    <i class="bi bi-shield-check me-1 text-warning"></i>Log Aktivitas
+                </a>
+            <?php endif; ?>
             <a href="../face-poc/index.php" target="_blank" class="nav-link-inst text-primary fw-semibold" title="Bilik Pengenalan Wajah Berbasis AI">
                 <i class="bi bi-camera-video me-1"></i>Bilik Wajah (POC)
             </a>
